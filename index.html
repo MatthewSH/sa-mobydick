@@ -10,11 +10,11 @@
 </head>
 <body>
     <script>
-        $(document).ready(async () => {
-            let stopWords;
-            let mobyText;
-            let mobyTextString;
+        let stopWords;
+        let mobyText;
+        let mobyTextString;
 
+        $(document).ready(async () => {
             await $.get('data/stop-words.txt', (data) => {
                 stopWords = data.split(new RegExp('[\n\r]+')).filter((word) => {
                     return (word.indexOf('#') <= -1);
