@@ -9,5 +9,27 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 </head>
 <body>
+    <script>
+        $(document).ready(async () => {
+            let stopWords;
+            let mobyText;
+            let mobyTextString;
+
+            await $.get('data/stop-words.txt', (data) => {
+                stopWords = data.split(new RegExp('[\n\r]+')).filter((word) => {
+                    return (word.indexOf('#') <= -1);
+                });
+            });
+
+            await $.get('data/mobydick.txt', (data) => {
+                mobyTextString = data;
+                mobyText = data.split(new RegExp('[ \n\r]+')).filter((word) => {
+                    return (word.length > 0);
+                });
+            });
+
+            console.log(mobyText);
+        });
+    </script>
 </body>
 </html>
