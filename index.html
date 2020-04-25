@@ -8,8 +8,21 @@
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 </head>
-<body>
-    <button id="analyze" type="button">Analyze text</button>
+<body class="bg-gray-200">
+    
+
+    <div class="container mx-auto py-4">
+        <p class="text-2xl">Moby Dick</p>
+        <div class="flex mt-10">
+            <div class="w-1/4">
+                <button id="analyze" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Analyze text</button>
+            </div>
+            <div class="w-3/4" id="results">
+                <p class="text-gray-600">Waiting for text analysis...</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         let stopWords;
         let mobyText;
@@ -56,7 +69,7 @@
             let currentValue;
 
             mobyText.forEach((word, index) => {
-                trimmedWord = word.toLowerCase();
+                trimmedWord = word.toLowerCase().trim();
 
                 if (trimmedWord.length > 0 && stopWords.indexOf(trimmedWord) <= -1) {
                     if (wordMap.has(trimmedWord)) {
@@ -72,7 +85,12 @@
                 return (second[1] - first[1]);
             });
 
-            console.log(sortedWordArray);
+            $('#results').empty();
+            $('#results').append($('<p class="text-2xl">Here are the top 100 words used:</p>'));
+
+            for(let i = 399; i < 500; i++) {
+                $('#results').append($(`<p>${i+1}: <b>${sortedWordArray[i][0]}</b> - Used ${sortedWordArray[i][1]} times.</p>`))
+            }
         });
     </script>
 </body>
