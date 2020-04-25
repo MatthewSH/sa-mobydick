@@ -44,22 +44,28 @@
                 });
 
                 let trimmedWord;
-                let splitWord;
+
                 mobyText.forEach((word, index) => {
-                    trimmedWord = word.replace(/[.,\/#!$%\^&*;:{}=\-_`~()\[\]\?]/g, '');
-                    splitWord = trimmedWord.split('—');
+                    trimmedWord = word.replace(/[.,\/#!$%\^&*;:{}=_`~()\"\“\[\]\?]/g, '');
                     
-                    if (splitWord.length > 1) {
-                        splitWord.forEach(subWord => {
+                    if (trimmedWord.split('—').length > 1) {
+                        mobyText.slice(index, 1);
+                        trimmedWord.split('—').forEach(subWord => {
                             mobyText.push(subWord);
                         })
+                    } else if (trimmedWord.split('-').length > 1) {
+                        mobyText.slice(index, 1);
+                        trimmedWord.split('-').forEach(subWord => {
+                            mobyText.push(subWord);
+                        })
+                    } else if (trimmedWord.indexOf('’') > -1) {
+                        mobyText.slice(index, 1);
+                        mobyText.push(trimmedWord.split('’')[0]);
                     } else {
                         mobyText[index] = trimmedWord;
                     }
                 });
             });
-
-            
         });
 
         $('#analyze').click(() => {
@@ -88,7 +94,7 @@
             $('#results').empty();
             $('#results').append($('<p class="text-2xl">Here are the top 100 words used:</p>'));
 
-            for(let i = 399; i < 500; i++) {
+            for(let i = 0; i < 100; i++) {
                 $('#results').append($(`<p>${i+1}: <b>${sortedWordArray[i][0]}</b> - Used ${sortedWordArray[i][1]} times.</p>`))
             }
         });
