@@ -58,11 +58,8 @@
                         trimmedWord.split('-').forEach(subWord => {
                             mobyText.push(subWord);
                         })
-                    } else if (trimmedWord.indexOf('’') > -1) {
-                        mobyText.slice(index, 1);
-                        mobyText.push(trimmedWord.split('’')[0]);
                     } else {
-                        mobyText[index] = trimmedWord;
+                        mobyText[index] = trimmedWord.replace('’s', '');
                     }
                 });
             });
@@ -78,6 +75,7 @@
                 trimmedWord = word.toLowerCase().trim();
 
                 if (trimmedWord.length > 0 && stopWords.indexOf(trimmedWord) <= -1) {
+
                     if (wordMap.has(trimmedWord)) {
                         currentValue = wordMap.get(trimmedWord);
                         wordMap.set(trimmedWord, currentValue+1);
