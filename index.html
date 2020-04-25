@@ -9,10 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 </head>
 <body>
+    <button id="analyze" type="button">Analyze text</button>
     <script>
         let stopWords;
         let mobyText;
         let mobyTextString;
+        let wordMap = new Map();
+        let sortedWordArray = [];
 
         $(document).ready(async () => {
             await $.get('data/stop-words.txt', (data) => {
@@ -26,7 +29,50 @@
                 mobyText = data.split(new RegExp('[ \n\r]+')).filter((word) => {
                     return (word.length > 0);
                 });
+
+                let trimmedWord;
+                let splitWord;
+                mobyText.forEach((word, index) => {
+                    trimmedWord = word.replace(/[.,\/#!$%\^&*;:{}=\-_`~()\[\]\?]/g, '');
+                    splitWord = trimmedWord.split('—');
+                    
+                    if (splitWord.length > 1) {
+                        splitWord.forEach(subWord => {
+                            mobyText.push(subWord);
+                        })
+                    } else {
+                        mobyText[index] = trimmedWord;
+                    }
+                });
             });
+
+            
+        });
+
+        $('#analyze').click(() => {
+            wordMap.clear();
+
+            let trimmedWord;
+            let currentValue;
+
+            mobyText.forEach((word, index) => {
+                trimmedWord = word.toLowerCase();
+
+                if (trimmedWord.length > 0 && stopWords.indexOf(trimmedWord) <= -1) {
+                    if (wordMap.has(trimmedWord)) {
+                        currentValue = wordMap.get(trimmedWord);
+                        wordMap.set(trimmedWord, currentValue+1);
+                    } else {
+                        wordMap.set(trimmedWord, 1);
+                    }
+                }
+            });
+            
+            let sortedWordArray = Array.from(wordMap).sort(function(first, second) {
+                return (second[1] - first[1]);
+            });
+
+            console.log(sortedWordArray);
         });
     </script>
 </body>
