@@ -62,3 +62,13 @@ func main() {
 		}
 	}
 }
+
+func ListContains(haystack *list.List, needle string) bool {
+	for item := haystack.Front(); item != nil; item = item.Next() {
+		if item.Value == needle {
+			return true
+		}
+	}
+
+	return false
+}
