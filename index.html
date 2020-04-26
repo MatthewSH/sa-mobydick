@@ -22,7 +22,11 @@
                 </div>
                 <div class="w-3/4">
                     <p v-if="sortedWordArray.length < 1" class="text-gray-600">Waiting for text analysis...</p>
-                    <div v-else></div>
+                    <div v-else>
+                        <p v-for="(word, index) in sortedWordArray">
+                            {{ index + 1 }}: <span class="font-medium">{{ word[0] }}</span>, used {{ word[1] }} times
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,7 +47,7 @@
             mounted: function() {
                 this.$nextTick(function () {
                     this.wordMap = new Map();
-                    
+
                     axios.get('data/stop-words.txt')
                         .then(res => {
                             this.stopWords = res.data.split(new RegExp('[\n\r]+')).filter(word => {
@@ -89,7 +93,27 @@
             },
             methods: {
                 analyzeText: function() {
-                    //
+                    this.wordMap.clear();
+
+                    let trimmedWord;
+                    let currentValue;
+
+                    this.mobyText.forEach((word, index) => {
+                        trimmedWord = word.toLowerCase().trim();
+
+                        if (trimmedWord.length > 0 && this.stopWords.indexOf(trimmedWord) <= -1) {
+                            if (this.wordMap.has(trimmedWord)) {
+                                currentValue = this.wordMap.get(trimmedWord);
+                                this.wordMap.set(trimmedWord, currentValue+1);
+                            } else {
+                                this.wordMap.set(trimmedWord, 1);
+                            }
+                        }
+                    });
+
+                    this.sortedWordArray = Array.from(this.wordMap).sort((first, second) => {
+                        return (second[1] - first[1]);
+                    });
                 }
             }
         });
