@@ -23,7 +23,7 @@ func main() {
 
 	for stopWordScanner.Scan() {
 		if len(stopWordScanner.Text()) > 0 && !strings.Contains(stopWordScanner.Text(), "#") {
-			stopWordsList.PushBack(strings.TrimSpace(stopWordScanner.Text()))
+			stopWordsList.PushBack(strings.ToLower(strings.TrimSpace(stopWordScanner.Text())))
 		}
 	}
 
