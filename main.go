@@ -57,11 +57,12 @@ func main() {
 			for _, word := range lineArray {
 				word = strings.ToLower(word)
 
-				mobyWordList[word]++
+				if !ListContains(stopWordsList, word) {
+					mobyWordList[word]++
+				}
 			}
 		}
 	}
-}
 
 func ListContains(haystack *list.List, needle string) bool {
 	for item := haystack.Front(); item != nil; item = item.Next() {
