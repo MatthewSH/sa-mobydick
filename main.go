@@ -83,6 +83,8 @@ func main() {
 	sort.Slice(sortedWordMap, func(first int, second int) bool {
 		return sortedWordMap[first].Value > sortedWordMap[second].Value
 	})
+
+	sortedWordMap = sortedWordMap[:100]
 }
 
 func ListContains(haystack *list.List, needle string) bool {
