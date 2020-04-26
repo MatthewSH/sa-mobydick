@@ -30,6 +30,51 @@
                 wordMap: null,
                 mobyText: null,
                 sortedWordArray: [],
+            },
+            mounted: function() {
+                this.$nextTick(function () {
+                    axios.get('data/stop-words.txt')
+                        .then(res => {
+                            this.stopWords = res.data.split(new RegExp('[\n\r]+')).filter(word => {
+                                return (word && word.length > 0 && word.indexOf('#') <= -1);
+                            });
+
+                            return axios.get('data/mobydick.txt');
+                        })
+                        .then(res => {
+                            // Set a temporary variable so we don't show the full page till it's ready.
+                            let tempMobyText = res.data.split(new RegExp('[ \n\r]+')).filter(word => {
+                                return (word.length > 0);
+                            });
+
+                            let trimmedWord;
+
+                            tempMobyText.forEach((word, index) => {
+                                trimmedWord = word.replace('’s', '');
+                                trimmedWord = word.replace('\'s', '');
+                                trimmedWord = word.replace(/[.,\/#!$%\^&*;:{}=_`~()\"\“\[\]\?]/g, '');
+                                
+                                if (trimmedWord.split('—').length > 1) {
+                                    tempMobyText.slice(index, 1);
+                                    trimmedWord.split('—').forEach(subWord => {
+                                        tempMobyText.push(subWord);
+                                    })
+                                } else if (trimmedWord.split('-').length > 1) {
+                                    tempMobyText.slice(index, 1);
+                                    trimmedWord.split('-').forEach(subWord => {
+                                        tempMobyText.push(subWord);
+                                    })
+                                } else {
+                                    tempMobyText[index] = trimmedWord.replace('’s', '');
+                                }
+                            });
+
+                            this.mobyText = tempMobyText;
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                })
             }
         });
     </script>
