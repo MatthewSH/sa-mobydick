@@ -47,6 +47,7 @@
 
                 mobyText.forEach((word, index) => {
                     trimmedWord = word.replace('’s', '');
+                    trimmedWord = word.replace('\'s', '');
                     trimmedWord = word.replace(/[.,\/#!$%\^&*;:{}=_`~()\"\“\[\]\?]/g, '');
                     
                     if (trimmedWord.split('—').length > 1) {
