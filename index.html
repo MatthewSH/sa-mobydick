@@ -15,7 +15,16 @@
 <body class="bg-gray-200">
     <div id="app" class="container mx-auto py-4">
         <div v-if="stopWords.length > 0 && mobyText">
-            <h1>Loaded</h1>
+            <p class="text-2xl">Moby Dick</p>
+            <div class="flex mt-10">
+                <div class="w-1/4">
+                    <button v-on:click="analyzeText" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Analyze text</button>
+                </div>
+                <div class="w-3/4">
+                    <p v-if="sortedWordArray.length < 1" class="text-gray-600">Waiting for text analysis...</p>
+                    <div v-else></div>
+                </div>
+            </div>
         </div>
         <div v-else>
             <p class="font-light text-4xl text-center mt-48 animated pulse infinite">Loading the content</p>
