@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -63,6 +64,26 @@ func main() {
 			}
 		}
 	}
+
+	// Since maps don't work the same in Go...we need to do some custom stuff.
+	// Did not realize when I started that Go handles map WAY differently than any other language
+	// I've ever worked with.
+
+	type kv struct {
+		Key string
+		Value int
+	}
+
+	var sortedWordMap []kv
+
+	for key, value := range mobyWordList {
+		sortedWordMap = append(sortedWordMap, kv{ key, value})
+	}
+
+	sort.Slice(sortedWordMap, func(first int, second int) bool {
+		return sortedWordMap[first].Value > sortedWordMap[second].Value
+	})
+}
 
 func ListContains(haystack *list.List, needle string) bool {
 	for item := haystack.Front(); item != nil; item = item.Next() {
