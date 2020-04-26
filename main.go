@@ -32,7 +32,7 @@ func main() {
 	}
 
 	mobyFile, err := os.Open("./data/mobydick.txt")
-	mobyWordList := list.New()
+	mobyWordList := make(map[string]int)
 
 	if err != nil {
 		log.Fatal(err)
@@ -43,15 +43,22 @@ func main() {
 	mobyScanner := bufio.NewScanner(mobyFile)
 
 	puncRegex := regexp.MustCompile(`[.,\/#!$%\^&*;:{}=_~()\"\[\]\?]`)
-	splitRegex := regexp.MustCompile(`[ \n\r]+`)
 
 	for mobyScanner.Scan() {
-		mobyLine := strings.ReplaceAll(mobyScanner.Text(), "’s", "")
-		mobyLine = puncRegex.ReplaceAllString(mobyLine, "")
-		lineArray := splitRegex.Split(mobyLine, -1)
+		mobyLine := mobyScanner.Text()
+		mobyLine = strings.TrimSpace(mobyLine)
 
-		for _, word := range lineArray {
-			mobyWordList.PushBack(word)
+		if len(mobyScanner.Text()) > 0 {
+			mobyLine = strings.ReplaceAll(mobyLine, "’s", "")
+			mobyLine = strings.ReplaceAll(mobyLine, "'s", "")
+			mobyLine = puncRegex.ReplaceAllString(mobyLine, "")
+			lineArray := strings.Fields(mobyLine)
+
+			for _, word := range lineArray {
+				word = strings.ToLower(word)
+
+				mobyWordList[word]++
+			}
 		}
 	}
 }
