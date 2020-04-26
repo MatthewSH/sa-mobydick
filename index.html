@@ -42,6 +42,8 @@
             },
             mounted: function() {
                 this.$nextTick(function () {
+                    this.wordMap = new Map();
+                    
                     axios.get('data/stop-words.txt')
                         .then(res => {
                             this.stopWords = res.data.split(new RegExp('[\n\r]+')).filter(word => {
