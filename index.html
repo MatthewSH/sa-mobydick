@@ -114,6 +114,8 @@
                     this.sortedWordArray = Array.from(this.wordMap).sort((first, second) => {
                         return (second[1] - first[1]);
                     });
+
+                    this.sortedWordArray.length = 100;
                 }
             }
         });
