@@ -7,6 +7,7 @@
     <title>Moby Dick - VueJS</title>
     
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
@@ -17,7 +18,7 @@
             <h1>Loaded</h1>
         </div>
         <div v-else>
-            <h1>Loading....</h1>
+            <p class="font-light text-4xl text-center mt-48 animated bounce infinite">Loading the content</p>
         </div>
     </div>
 
