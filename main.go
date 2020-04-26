@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"container/list"
+	"fmt"
 	"log"
 	"os"
 	"regexp"
@@ -85,6 +86,13 @@ func main() {
 	})
 
 	sortedWordMap = sortedWordMap[:100]
+
+	fmt.Println("Here are the 100 most used words in Moby Dick.")
+	fmt.Println("---------")
+
+	for index, kv := range sortedWordMap {
+		fmt.Printf("%d: \"%v\", used %d times\n", index + 1, kv.Key, kv.Value)
+	}
 }
 
 func ListContains(haystack *list.List, needle string) bool {
