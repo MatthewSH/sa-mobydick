@@ -18,7 +18,14 @@
 
     <script>
         let app = new Vue({
-            el: '#app'
+            el: '#app',
+            data: {
+                loaded: false,
+                stopWords: [],
+                wordMap: null,
+                mobyText: '',
+                sortedWordArray: [],
+            }
         });
     </script>
 </body>
