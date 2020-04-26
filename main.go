@@ -60,8 +60,22 @@ func main() {
 			for _, word := range lineArray {
 				word = strings.ToLower(word)
 
-				if !ListContains(stopWordsList, word) {
-					mobyWordList[word]++
+				if len(strings.Split(word, "—")) > 1 {
+					for _, subWord := range strings.Split(word, "—") {
+						if !ListContains(stopWordsList, subWord) {
+							mobyWordList[subWord]++
+						}
+					}
+				} else if len(strings.Split(word, "-")) > 1 {
+					for _, subWord := range strings.Split(word, "-") {
+						if !ListContains(stopWordsList, subWord) {
+							mobyWordList[subWord]++
+						}
+					}
+				} else {
+					if !ListContains(stopWordsList, word) {
+						mobyWordList[word]++
+					}
 				}
 			}
 		}
