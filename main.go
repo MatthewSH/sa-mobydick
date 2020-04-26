@@ -53,6 +53,7 @@ func main() {
 		if len(mobyScanner.Text()) > 0 {
 			mobyLine = strings.ReplaceAll(mobyLine, "’s", "")
 			mobyLine = strings.ReplaceAll(mobyLine, "'s", "")
+			mobyLine = strings.ReplaceAll(mobyLine, "“", "")
 			mobyLine = puncRegex.ReplaceAllString(mobyLine, "")
 			lineArray := strings.Fields(mobyLine)
 
